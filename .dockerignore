@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+
+# Git
+.git/
+.gitignore
+
+# Python tooling
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Tests
+tests/
+
+# Documentation
+README.md
+
+# Docker
+docker-compose.yml

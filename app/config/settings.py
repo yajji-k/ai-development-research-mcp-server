@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     """
 
     server_name: str = "MCP Server"
+    server_version: str = "0.1.0"
     log_level: str = "INFO"
 
     model_config = SettingsConfigDict(

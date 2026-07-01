@@ -1,7 +1,9 @@
-from app.services.utility.echo_service import EchoService
+from app.telemetry.decorators import tool_execution
+from app.services.utility import EchoService
 
 service = EchoService()
 
-def echo(message:str):
+@tool_execution
+def get_echo(message:str):
     """Mcp tool adapter for echo"""
     return service.echo(message=message)

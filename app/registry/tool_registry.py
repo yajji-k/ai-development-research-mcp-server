@@ -1,9 +1,12 @@
 from fastmcp import FastMCP
 
-from app.tools.utility import ping, echo, server_info, generate_uuid
+from app.tools.utility import get_ping, get_echo, get_server_info, get_uuid
 
 utility_tools = [
-    ping, echo, server_info, generate_uuid
+    get_ping, 
+    get_echo, 
+    get_server_info, 
+    get_uuid
 ]
 
 def register_tools(server: FastMCP) -> None:

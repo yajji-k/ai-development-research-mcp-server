@@ -4,6 +4,6 @@ from app.services.utility import UUIDService
 service = UUIDService()
 
 @tool_execution
-def get_uuid():
+def uuid():
     """Generate a new UUID version 4."""
     return service.get_uuid()

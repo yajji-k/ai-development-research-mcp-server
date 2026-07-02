@@ -1,6 +1,14 @@
+from enum import Enum
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Transport(str, Enum):
+    """Supported MCP server transports."""
+
+    STDIO = "stdio"
+    HTTP = "http"
 
 
 class Settings(BaseSettings):
@@ -15,8 +23,14 @@ class Settings(BaseSettings):
     server_version: str = "0.1.0"
     log_level: str = "INFO"
 
+    transport: Transport = Transport.STDIO
+    http_host: str = "0.0.0.0"
+    http_port: int = 8000
+
     model_config = SettingsConfigDict(
-        env_file=".env", env_file_encoding="utf-8", extra="ignore"
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
     )
 
 

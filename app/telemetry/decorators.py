@@ -94,3 +94,44 @@ def resource_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
             ) from exc
 
     return wrapper
+
+
+def prompt_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
+    """
+    Log prompt execution, measure execution time and normalize unexpected errors.
+    """
+
+    @wraps(fn)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        prompt_name = fn.__name__
+        start_time = time.perf_counter()
+
+        logger.info("Executing prompt '%s'", prompt_name)
+
+        try:
+            result = fn(*args, **kwargs)
+
+            execution_time = (time.perf_counter() - start_time) * 1000
+
+            logger.info(
+                "Prompt '%s' completed successfully in %.2f ms",
+                prompt_name,
+                execution_time,
+            )
+
+            return result
+
+        except ApplicationError:
+            raise
+
+        except Exception as exc:
+            logger.exception(
+                "Unexpected error while executing prompt '%s'",
+                prompt_name,
+            )
+            raise MCPServerError(
+                f"Unexpected error while executing prompt '{prompt_name}'"
+            ) from exc
+
+    return wrapper
+

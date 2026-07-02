@@ -1,7 +1,7 @@
 from fastmcp import FastMCP
 
 from app.config.settings import get_settings
-from app.registry import register_tools, register_resources
+from app.registry import register_tools, register_resources, register_prompts
 
 def create_server() -> FastMCP:
     """
@@ -15,5 +15,6 @@ def create_server() -> FastMCP:
 
     register_tools(server)
     register_resources(server)
-
+    register_prompts(server)
+    
     return server

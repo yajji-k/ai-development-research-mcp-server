@@ -6,9 +6,10 @@ from .health import HealthResponse
 from .capabilites import CapabilitiesResponse
 
 __all__ = [
-    PingResponse,
-    EchoResponse,
-    ServerInfoResponse,
-    UUIDResponse,
-    HealthResponse
+    "PingResponse",
+    "EchoResponse",
+    "ServerInfoResponse",
+    "UUIDResponse",
+    "HealthResponse",
+    "CapabilitiesResponse",
 ]

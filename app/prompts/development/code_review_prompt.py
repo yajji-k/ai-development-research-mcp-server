@@ -5,4 +5,5 @@ service = CodeReviewService()
 
 @prompt_execution
 def code_review(language: str):
-    return service.get_code_review_prompt(language)
+    response = service.get_code_review_prompt(language)
+    return response

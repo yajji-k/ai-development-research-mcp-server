@@ -4,6 +4,7 @@ from functools import wraps
 from typing import Any, Callable
 
 from app.exceptions import ApplicationError, MCPServerError
+from app.telemetry.audit import audit_logger
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,13 @@ def tool_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
                 fn.__name__,
                 duration_ms,
             )
+            
+            audit_logger.log_tool_execution(
+                tool_name=fn.__name__,
+                status="SUCCESS",
+                duration_ms=duration_ms,
+            )
+            
             return result
 
         except MCPServerError:
@@ -36,6 +44,13 @@ def tool_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
                 duration_ms,
                 exc_info=True,
             )
+            
+            audit_logger.log_tool_execution(
+                tool_name=fn.__name__,
+                status="FAILED",
+                duration_ms=duration_ms,
+            )
+            
             raise
 
         except Exception as exc:
@@ -45,6 +60,13 @@ def tool_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
                 fn.__name__,
                 duration_ms,
             )
+            
+            audit_logger.log_tool_execution(
+                tool_name=fn.__name__,
+                status="FAILED",
+                duration_ms=duration_ms,
+            )
+            
             raise ApplicationError(
                 "An unexpected internal error occurred."
             ) from exc
@@ -70,6 +92,13 @@ def resource_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
                 fn.__name__,
                 duration_ms,
             )
+            
+            audit_logger.log_resource_access(
+                resource_name=fn.__name__,
+                status="SUCCESS",
+                duration_ms=duration_ms,
+            )
+            
             return result
 
         except MCPServerError:
@@ -80,6 +109,13 @@ def resource_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
                 duration_ms,
                 exc_info=True,
             )
+            
+            audit_logger.log_resource_access(
+                resource_name=fn.__name__,
+                status="FAILED",
+                duration_ms=duration_ms,
+            )
+            
             raise
 
         except Exception as exc:
@@ -89,6 +125,13 @@ def resource_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
                 fn.__name__,
                 duration_ms,
             )
+            
+            audit_logger.log_resource_access(
+                resource_name=fn.__name__,
+                status="FAILED",
+                duration_ms=duration_ms,
+            )
+            
             raise ApplicationError(
                 "An unexpected internal error occurred."
             ) from exc
@@ -118,10 +161,22 @@ def prompt_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
                 prompt_name,
                 execution_time,
             )
+            
+            audit_logger.log_prompt_execution(
+                prompt_name=prompt_name,
+                status="SUCCESS",
+                duration_ms=execution_time,
+            )
 
             return result
 
         except ApplicationError:
+            audit_logger.log_prompt_execution(
+                prompt_name=prompt_name,
+                status="FAILED",
+                duration_ms=(time.perf_counter() - start_time) * 1000,
+            )
+            
             raise
 
         except Exception as exc:
@@ -129,9 +184,15 @@ def prompt_execution(fn: Callable[..., Any]) -> Callable[..., Any]:
                 "Unexpected error while executing prompt '%s'",
                 prompt_name,
             )
+            
+            audit_logger.log_prompt_execution(
+                prompt_name=prompt_name,
+                status="FAILED",
+                duration_ms=(time.perf_counter() - start_time) * 1000,
+            )
+            
             raise MCPServerError(
                 f"Unexpected error while executing prompt '{prompt_name}'"
             ) from exc
 
     return wrapper
-

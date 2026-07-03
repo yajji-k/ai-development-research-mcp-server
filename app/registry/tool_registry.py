@@ -1,17 +1,12 @@
+import app.tools.utility.register
 from fastmcp import FastMCP
 
-from app.tools.utility import ping, echo, uuid
+TOOL_REGISTRARS = (
+    app.tools.utility.register.register_tools,
+)
 
-utility_tools = [
-    ping, 
-    echo, 
-    uuid
-]
 
 def register_tools(server: FastMCP) -> None:
-    """
-    Register all MCP tools with the server.
-    """
-    
-    for tool in utility_tools:
-        server.tool()(tool)
+    """Register all MCP tools with the server."""
+    for register in TOOL_REGISTRARS:
+        register(server)

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
+from app.auth.api_key import APIKeyMiddleware
 from fastmcp import FastMCP
 
 
@@ -28,7 +29,8 @@ def create_app(mcp: FastMCP) -> FastAPI:
             expose_headers=[
                 "mcp-session-id",
             ],
-        )
+        ),
+        Middleware(APIKeyMiddleware)
     ]
 
     mcp_app = mcp.http_app(
@@ -43,6 +45,6 @@ def create_app(mcp: FastMCP) -> FastAPI:
         lifespan=mcp_app.lifespan,
     )
 
-    app.mount("/analytics", mcp_app)
+    app.mount("/mcp-server",mcp_app)
 
     return app

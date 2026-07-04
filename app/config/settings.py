@@ -1,5 +1,6 @@
 from enum import Enum
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -28,6 +29,7 @@ class Settings(BaseSettings):
     http_port: int = 8000
 
     api_key: str = "change-me"
+    workspace_root: Path = Path.cwd()
 
     model_config = SettingsConfigDict(
         env_file=".env",

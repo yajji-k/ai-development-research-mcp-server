@@ -18,12 +18,7 @@ def edit_file(path: str, content: str) -> EditFileResponse:
     Returns:
         Information about the edited file.
     """
-    service.edit_file(
+    return service.edit_file(
         path=path,
         content=content,
-    )
-
-    return EditFileResponse(
-        path=path,
-        message="File updated successfully.",
     )

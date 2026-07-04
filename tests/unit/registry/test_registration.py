@@ -3,6 +3,12 @@ from app.prompts.development import register as development_prompt_register
 from app.registry import prompt_registry, resource_registry, tool_registry
 from app.resources.utility import capability, health, server_info
 from app.resources.utility import register as utility_resource_register
+from app.tools.filesystem import register as filesystem_tool_register
+from app.tools.filesystem.create_file_tool import create_file
+from app.tools.filesystem.delete_file_tool import delete_file
+from app.tools.filesystem.edit_file_tool import edit_file
+from app.tools.filesystem.list_directory_tool import list_directory
+from app.tools.filesystem.read_file_tool import read_file
 from app.tools.utility import echo, ping, uuid
 from app.tools.utility import register as utility_tool_register
 
@@ -50,6 +56,20 @@ def test_utility_tool_package_registers_utility_tools() -> None:
         ping,
         echo,
         uuid,
+    ]
+
+
+def test_filesystem_tool_package_registers_filesystem_tools() -> None:
+    server = FakeServer()
+
+    filesystem_tool_register.register_tools(server)
+
+    assert server.tools == [
+        read_file,
+        create_file,
+        edit_file,
+        delete_file,
+        list_directory,
     ]
 
 

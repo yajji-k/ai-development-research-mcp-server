@@ -17,9 +17,4 @@ def delete_file(path: str) -> DeleteFileResponse:
     Returns:
         Information about the deleted file.
     """
-    service.delete_file(path)
-
-    return DeleteFileResponse(
-        path=path,
-        message="File deleted successfully.",
-    )
+    return service.delete_file(path)

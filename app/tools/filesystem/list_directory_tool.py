@@ -17,9 +17,4 @@ def list_directory(path: str = ".") -> ListDirectoryResponse:
     Returns:
         Directory contents.
     """
-    entries = service.list_directory(path)
-
-    return ListDirectoryResponse(
-        path=path,
-        entries=entries,
-    )
+    return service.list_directory(path)

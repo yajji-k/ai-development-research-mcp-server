@@ -16,9 +16,4 @@ def read_file(path: str) -> ReadFileResponse:
     Returns:
         File contents.
     """
-    content = service.read_file(path)
-
-    return ReadFileResponse(
-        path=path,
-        content=content,
-    )
+    return service.read_file(path)

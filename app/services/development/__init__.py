@@ -1,9 +1,10 @@
-from .CodeReviewService import CodeReviewService
-from .BugReportService import BugReportService
-from .APIDocumentationService import APIDocumentationService
+from .filesystem import FileService, WorkspaceService
+from .prompting import APIDocumentationService, BugReportService, CodeReviewService
 
 __all__ = [
-    CodeReviewService,
-    BugReportService,
-    APIDocumentationService
+    "APIDocumentationService",
+    "BugReportService",
+    "CodeReviewService",
+    "FileService",
+    "WorkspaceService",
 ]

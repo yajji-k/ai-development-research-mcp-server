@@ -1,10 +1,12 @@
 import app.tools.filesystem.register
+import app.tools.git.register
 import app.tools.utility.register
 from fastmcp import FastMCP
 
 TOOL_REGISTRARS = (
     app.tools.utility.register.register_tools,
     app.tools.filesystem.register.register_tools,
+    app.tools.git.register.register_tools,
 )
 
 

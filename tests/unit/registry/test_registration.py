@@ -9,6 +9,11 @@ from app.tools.filesystem.delete_file_tool import delete_file
 from app.tools.filesystem.edit_file_tool import edit_file
 from app.tools.filesystem.list_directory_tool import list_directory
 from app.tools.filesystem.read_file_tool import read_file
+from app.tools.git import register as git_tool_register
+from app.tools.git.git_branch_tool import git_branch
+from app.tools.git.git_diff_tool import git_diff
+from app.tools.git.git_log_tool import git_log
+from app.tools.git.git_status_tool import git_status
 from app.tools.utility import echo, ping, uuid
 from app.tools.utility import register as utility_tool_register
 
@@ -70,6 +75,19 @@ def test_filesystem_tool_package_registers_filesystem_tools() -> None:
         edit_file,
         delete_file,
         list_directory,
+    ]
+
+
+def test_git_tool_package_registers_git_tools() -> None:
+    server = FakeServer()
+
+    git_tool_register.register_tools(server)
+
+    assert server.tools == [
+        git_status,
+        git_diff,
+        git_log,
+        git_branch,
     ]
 
 
